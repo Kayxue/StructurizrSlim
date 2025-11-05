@@ -21,10 +21,11 @@ COPY --from=native_builder /usr/local/tomcat /usr/local/tomcat
 WORKDIR /usr/local/tomcat
 
 RUN sed -i 's/port="8080"/port="${http.port}" maxPostSize="10485760"/' conf/server.xml \
-    && echo 'export CATALINA_OPTS="-Xms512M -Xmx512M -Dhttp.port=$PORT"' > bin/setenv.sh
+    && echo 'export CATALINA_OPTS="-Xms512M -Xmx512M -Dhttp.port=$PORT"' > bin/setenv.sh \
+    && chmod +x bin/*.sh
 
 COPY --from=native_builder /build/structurizr-onpremises.war /usr/local/tomcat/webapps/ROOT.war
 
 EXPOSE ${PORT}
 
-CMD ["catalina.sh", "run"]
+CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
