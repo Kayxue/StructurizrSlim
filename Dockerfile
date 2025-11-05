@@ -21,8 +21,12 @@ COPY --from=native_builder /usr/local/tomcat /usr/local/tomcat
 WORKDIR /usr/local/tomcat
 
 RUN sed -i 's/port="8080"/port="${http.port}" maxPostSize="10485760"/' conf/server.xml \
-    && echo 'export CATALINA_OPTS="-Xms512M -Xmx512M -Dhttp.port=$PORT"' > bin/setenv.sh \
+    && echo 'export CATALINA_OPTS="-Xms512M -Xmx512M -Dhttp.port=$PORT -Dstructurizr.dataDirectory=/usr/local/structurizr"' > bin/setenv.sh \
     && chmod +x bin/*.sh
+
+# Create Structurizr data directory and enable DSL editor
+RUN mkdir -p /usr/local/structurizr \
+    && echo 'structurizr.feature.ui.dslEditor=true' > /usr/local/structurizr/structurizr.properties
 
 RUN rm -rf /usr/local/tomcat/webapps/ROOT*
 COPY --from=native_builder /build/structurizr-onpremises.war /usr/local/tomcat/webapps/ROOT.war
