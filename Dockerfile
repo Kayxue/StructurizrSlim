@@ -18,4 +18,4 @@ COPY --from=native_builder /build/structurizr-lite.war /usr/local/structurizr-li
 
 EXPOSE ${PORT}
 
-CMD ["java", "-Dserver.port=${PORT}", "-jar", "/usr/local/structurizr-lite.war"]
+CMD ["java", "-Dserver.port=${PORT}", "--enable-native-access=ALL-UNNAMED", "-jar", "/usr/local/structurizr-lite.war"]
