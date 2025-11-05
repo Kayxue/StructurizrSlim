@@ -24,6 +24,7 @@ RUN sed -i 's/port="8080"/port="${http.port}" maxPostSize="10485760"/' conf/serv
     && echo 'export CATALINA_OPTS="-Xms512M -Xmx512M -Dhttp.port=$PORT"' > bin/setenv.sh \
     && chmod +x bin/*.sh
 
+RUN rm -rf /usr/local/tomcat/webapps/ROOT*
 COPY --from=native_builder /build/structurizr-onpremises.war /usr/local/tomcat/webapps/ROOT.war
 
 EXPOSE ${PORT}
