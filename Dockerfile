@@ -9,6 +9,8 @@ RUN curl -L -# -O https://github.com/structurizr/lite/releases/download/v2025.11
 
 FROM bellsoft/liberica-runtime-container:jdk-21-musl
 
+ENV PORT=3000
+
 RUN apk add --no-cache graphviz
 
 COPY --from=native_builder /build/structurizr-lite.war /usr/local/structurizr-lite.war
