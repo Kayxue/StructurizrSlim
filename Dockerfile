@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-runtime-container:jdk-21-musl as native_builder
+FROM bellsoft/liberica-runtime-container:jdk-21-musl AS native_builder
 
 ENV PORT=3000
 
