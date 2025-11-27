@@ -12,7 +12,7 @@ RUN apk add --no-cache graphviz
 
 ENV STRUCTURIZR_DATA_DIRECTORY=/usr/local/structurizr
 
-COPY --from=downloader /build/structurizr-lite.war /usr/local/structurizr-lite.war
+COPY --from=downloader /structurizr-lite.war /usr/local/structurizr-lite.war
 
 EXPOSE ${PORT}
 
