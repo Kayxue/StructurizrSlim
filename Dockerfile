@@ -1,12 +1,10 @@
-FROM bellsoft/liberica-runtime-container:jdk-21-musl AS native_builder
+FROM alpine:latest AS downloader
 
-WORKDIR /build
+RUN apk add --no-cache ca-certificates wget
 
-RUN apk add --no-cache curl tar
+RUN wget -O /structurizr-lite.war https://github.com/structurizr/lite/releases/download/v2025.11.08/structurizr-lite.war
 
-RUN curl -L -# -O https://github.com/structurizr/lite/releases/download/v2025.11.01/structurizr-lite.war
-
-FROM bellsoft/liberica-runtime-container:jdk-21-musl
+FROM bellsoft/liberica-runtime-container:jre-21-glibc
 
 ENV PORT=3000
 
@@ -14,7 +12,7 @@ RUN apk add --no-cache graphviz
 
 ENV STRUCTURIZR_DATA_DIRECTORY=/usr/local/structurizr
 
-COPY --from=native_builder /build/structurizr-lite.war /usr/local/structurizr-lite.war
+COPY --from=downloader /build/structurizr-lite.war /usr/local/structurizr-lite.war
 
 EXPOSE ${PORT}
 
